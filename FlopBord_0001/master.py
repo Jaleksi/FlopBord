@@ -8,6 +8,7 @@ display = pygame.display.set_mode((korkeus, leveys))
 pygame.display.set_caption("FlopBord")
 clock = pygame.time.Clock()
 birdUp = pygame.image.load("media/bird_up.png")
+birdDown = pygame.image.load("media/bird_down.png")
 
 
 class Bird:
@@ -18,7 +19,11 @@ class Bird:
         self.jumpHeight = 10
 
     def drawBird(self):
-        display.blit(birdUp, [self.x, self.y])
+        if(self.jumping):
+            display.blit(birdDown, [self.x, self.y])
+        else:
+            display.blit(birdUp, [self.x, self.y])
+
 
     def gravity(self):
         if(not outOfBounds(self.x, self.y, 10)):

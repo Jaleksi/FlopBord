@@ -9,7 +9,8 @@ pygame.display.set_caption("FlopBord")
 clock = pygame.time.Clock()
 birdUp = pygame.image.load("media/bird_up.png")
 birdDown = pygame.image.load("media/bird_down.png")
-
+topWall = pygame.image.load("media/ylaPutki.png")
+downWall = pygame.image.load("media/alaPutki.png")
 
 class Bird:
     def __init__(self, x, y):
@@ -47,10 +48,22 @@ class Wall:
         self.x = x
         self.y = y
 
+    def drawWall(self):
+        display.blit(topWall, [self.x, -200])
+        display.blit(downWall, [self.x, 300])
 
-def gameLogic(entity):
-    entity.drawBird()
+    def moveWall(self):
+        if(self.x < -100):
+            self.x = 700
+        else:
+            self.x -= 5
+
+
+def gameLogic(entity, obstacle):
     entity.gravity()
+    obstacle.moveWall()
+    entity.drawBird()
+    obstacle.drawWall()
 
 
 def inputt(entity):
@@ -64,10 +77,11 @@ def inputt(entity):
 
 def game():
     bird = Bird(300, 300)
+    wall = Wall(700, 0)
     while(True):
         inputt(bird)
         display.fill(pygame.Color("white"))
-        gameLogic(bird)
+        gameLogic(bird, wall)
         pygame.display.update()
         clock.tick(60)
 

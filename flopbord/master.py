@@ -12,7 +12,9 @@ birdUp = pygame.image.load("media/bird_up.png")
 birdDown = pygame.image.load("media/bird_down.png")
 topWall = pygame.image.load("media/ylaPutki.png")
 downWall = pygame.image.load("media/alaPutki.png")
-speed = 30
+speed = 30  # Speed of obstacles, also used to calculate points.
+
+
 class Bird:
     def __init__(self, x, y):
         self.x = x
@@ -20,7 +22,7 @@ class Bird:
         self.jumping = False
         self.jumpHeight = 10
 
-    def drawBird(self):
+    def drawBird(self):  # Make the bird look like it is flapping
         if(self.jumpHeight > 5):
             display.blit(birdUp, [self.x, self.y])
         else:
@@ -56,7 +58,7 @@ class Wall:
 
     def moveWall(self):
         global speed
-        self.topHitBox = [self.x, self.y-525, 80, 440] # leveys, korkeus
+        self.topHitBox = [self.x, self.y-525, 80, 440]  # Hitbox for collide
         self.botHitBox = [self.x, self.y+25, 80, 440]
         if(self.x < -100):
             self.x = 600
@@ -101,7 +103,8 @@ def game():
 def lopputeksti(pisteet):
     score = str(int(speed-30))
     font = pygame.font.SysFont('Arial', 30)
-    text = font.render("Sait "+score+" pistettä. ENTER=UUSI PELI", False, (0, 0, 0))
+    text = font.render("Sait "+score+" pistettä. ENTER=UUSI PELI",
+                       False, (0, 0, 0))
     display.blit(text, (100, 300))
 
 
@@ -120,6 +123,7 @@ def loppu():
         lopputeksti(speed)
         pygame.display.update()
         clock.tick(60)
+
 
 if(__name__ == "__main__"):
     game()

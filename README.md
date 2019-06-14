@@ -1,3 +1,3 @@
 Flappybird-like game.
 
-Run master.py to play.
+Run master.py to play, space = jump.

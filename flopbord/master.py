@@ -12,8 +12,7 @@ birdUp = pygame.image.load("media/bird_up.png")
 birdDown = pygame.image.load("media/bird_down.png")
 topWall = pygame.image.load("media/ylaPutki.png")
 downWall = pygame.image.load("media/alaPutki.png")
-
-
+speed = 30
 class Bird:
     def __init__(self, x, y):
         self.x = x
@@ -30,7 +29,7 @@ class Bird:
     def gravity(self):
         self.hitBox = [self.x+20, self.y+20]
         if(not withinBounds(self.x, self.y, 10)):
-            print("ouou")
+            loppu()
         if(self.jumping):
             if(int(self.jumpHeight) >= 1):
                 self.y -= int(self.jumpHeight)
@@ -56,13 +55,15 @@ class Wall:
         display.blit(downWall, [self.x, self.y+25])
 
     def moveWall(self):
+        global speed
         self.topHitBox = [self.x, self.y-525, 80, 440] # leveys, korkeus
         self.botHitBox = [self.x, self.y+25, 80, 440]
         if(self.x < -100):
             self.x = 600
             self.y = randint(150, 450)
+            speed += 1
         else:
-            self.x -= 3
+            self.x -= speed//10
 
 
 def gameLogic(entity, obstacle):
@@ -73,7 +74,7 @@ def gameLogic(entity, obstacle):
         wall.drawWall()
         if(hittingWall(entity.hitBox, wall.botHitBox) or
            hittingWall(entity.hitBox, wall.topHitBox)):
-            print("wdf")
+            loppu()
 
 
 def inputt(entity):
@@ -85,9 +86,10 @@ def inputt(entity):
             if(event.key == pygame.K_SPACE):
                 entity.jump()
 
+
 def game():
     bird = Bird(300, 300)
-    walls = [Wall(700, randint(100, 500)), Wall(1050, randint(100, 500))]
+    walls = [Wall(700, randint(150, 450)), Wall(1050, randint(150, 450))]
     while(True):
         inputt(bird)
         display.fill(pygame.Color("white"))
@@ -95,6 +97,29 @@ def game():
         pygame.display.update()
         clock.tick(60)
 
+
+def lopputeksti(pisteet):
+    score = str(int(speed-30))
+    font = pygame.font.SysFont('Arial', 30)
+    text = font.render("Sait "+score+" pistettä. ENTER=UUSI PELI", False, (0, 0, 0))
+    display.blit(text, (100, 300))
+
+
+def loppu():
+    global speed
+    while(True):
+        for event in pygame.event.get():
+            if(event.type == pygame.QUIT):
+                pygame.quit()
+                exit()
+            if(event.type == pygame.KEYDOWN):
+                if(event.key == pygame.K_RETURN):
+                    speed = 30
+                    game()
+        display.fill(pygame.Color("white"))
+        lopputeksti(speed)
+        pygame.display.update()
+        clock.tick(60)
 
 if(__name__ == "__main__"):
     game()

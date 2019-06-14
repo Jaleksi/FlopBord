@@ -13,13 +13,13 @@ birdDown = pygame.image.load("media/bird_down.png")
 topWall = pygame.image.load("media/ylaPutki.png")
 downWall = pygame.image.load("media/alaPutki.png")
 
+
 class Bird:
     def __init__(self, x, y):
         self.x = x
         self.y = y
         self.jumping = False
         self.jumpHeight = 10
-        self.hitBox = [self.x+20, self.y+20]
 
     def drawBird(self):
         if(self.jumpHeight > 5):
@@ -28,6 +28,7 @@ class Bird:
             display.blit(birdDown, [self.x, self.y])
 
     def gravity(self):
+        self.hitBox = [self.x+20, self.y+20]
         if(not withinBounds(self.x, self.y, 10)):
             print("ouou")
         if(self.jumping):
@@ -49,14 +50,14 @@ class Wall:
     def __init__(self, x, y):
         self.x = x
         self.y = y
-        self.topHitBox = [self.x, self.y-525, 80, 440] # leveys, korkeus
-        self.botHitBox = [self.x, self.y+25, 80, 440]
 
     def drawWall(self):
         display.blit(topWall, [self.x, self.y-525])
         display.blit(downWall, [self.x, self.y+25])
 
     def moveWall(self):
+        self.topHitBox = [self.x, self.y-525, 80, 440] # leveys, korkeus
+        self.botHitBox = [self.x, self.y+25, 80, 440]
         if(self.x < -100):
             self.x = 600
             self.y = randint(150, 450)
@@ -70,6 +71,9 @@ def gameLogic(entity, obstacle):
     for wall in obstacle:
         wall.moveWall()
         wall.drawWall()
+        if(hittingWall(entity.hitBox, wall.botHitBox) or
+           hittingWall(entity.hitBox, wall.topHitBox)):
+            print("wdf")
 
 
 def inputt(entity):

@@ -1,1 +1,3 @@
-Flappybird-like game I'm creating to practice project structure.
+Flappybird-like game.
+
+Run master.py to play.

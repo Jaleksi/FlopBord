@@ -1,5 +1,5 @@
 import pygame
-from collision import withinBounds, hittingWall
+from collision import hittingWall, withinBounds
 from random import randint
 
 pygame.init()
@@ -90,7 +90,7 @@ def inputt(entity):
 
 
 def game():
-    bird = Bird(300, 300)
+    bird = Bird(300, 300)  # Create bird at the center of the window
     walls = [Wall(700, randint(150, 450)), Wall(1050, randint(150, 450))]
     while(True):
         inputt(bird)
